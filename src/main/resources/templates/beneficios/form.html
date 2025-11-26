@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Beneficio - Sistema Saber Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">Sistema Saber Pro</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Alertas -->
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span th:text="${error}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">
+                            <i class="fas fa-gift"></i> Nuevo Beneficio
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/beneficios/guardar}" th:object="${beneficio}" method="post">
+                            <!-- Selección de Estudiante -->
+                            <div class="mb-3">
+                                <label class="form-label">Estudiante *</label>
+                                <select name="estudianteId" class="form-select" required>
+                                    <option value="">Seleccione un estudiante</option>
+                                    <option th:each="estudiante : ${estudiantes}" 
+                                            th:value="${estudiante.id}"
+                                            th:text="${estudiante.identificacion + ' - ' + estudiante.nombre + ' ' + estudiante.apellido}"></option>
+                                </select>
+                            </div>
+
+                            <!-- Tipo de Beneficio -->
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de Beneficio *</label>
+                                <input type="text" class="form-control" th:field="*{tipoBeneficio}" 
+                                       placeholder="Ej: Beca, Descuento, Material, Tutoría..." required>
+                            </div>
+
+                            <!-- Descripción -->
+                            <div class="mb-3">
+                                <label class="form-label">Descripción</label>
+                                <textarea class="form-control" th:field="*{descripcion}" 
+                                          rows="4" 
+                                          placeholder="Descripción detallada del beneficio..."></textarea>
+                            </div>
+
+                            <!-- Fecha de Asignación -->
+                            <div class="mb-3">
+                                <label class="form-label">Fecha de Asignación *</label>
+                                <input type="date" class="form-control" th:field="*{fechaAsignacion}" required>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Guardar Beneficio
+                                </button>
+                                <a th:href="@{/beneficios}" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
